@@ -3,18 +3,47 @@ import Info from "./components/Info"
 import Form from "./components/Form"
 import Weather from "./components/Weather"
 
-const API_KEY = "a76efa0956d43ba14872707af0aa81be";
+const API_KEY = "4c61b270f69a9186e3fb5ed85b49925b";
 
 class App extends React.Component
 {
 
+  state = {
+    temp: undefined,
+    city: undefined,
+    country: undefined,
+    sunrise: undefined,
+    sutset: undefined,
+    error: undefined
+  }
+
   gettingWeather = async (e) => {
     e.preventDefault();
-    const CITY = e.target.elements.city.value;
-    const api_url = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${CITY}&appid=${API_KEY}`);
-    const data = await api_url.json();
-    console.log(data);
+    var CITY = e.target.elements.city.value;
+    
 
+    if(CITY){
+      const api_url = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${CITY}&appid=${API_KEY}`);
+      const data = await api_url.json();
+      console.log(data);
+
+      //convert time to user view
+      var sunset = data.sys.sunset;
+      var date = new Date();
+      console.log(date);
+      date.setTime(sunset*1000);
+      // var sunset_date = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+      var sunset_date = date.toLocaleString();
+
+      this.setState({
+        temp: data.main.temp,
+        city: data.name,
+        country: data.sys.country,
+        sunrise: data.sys.sunrise,
+        sunset: sunset_date,
+        error: ""
+      });
+    }
   }
 
   render()
@@ -23,7 +52,14 @@ class App extends React.Component
       <div>
         <Info />
         <Form weatherMethod = {this.gettingWeather} />
-        <Weather />
+        <Weather 
+          temp={this.state.temp}
+          city={this.state.city}
+          country={this.state.country}
+          sunrise={this.state.sunrise}
+          sunset={this.state.sunset}
+          error={this.state.error}
+        />
       </div>
     );
   }
