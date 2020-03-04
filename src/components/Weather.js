@@ -10,7 +10,7 @@ class Weather extends React.Component
                 <div>
                 <p>Location: {this.props.city} {this.props.country}</p>
                 <p>Tempeerature: {this.props.temp}</p>
-                <p>Sunrise: {this.props.sunrise}</p>
+                <p>Pressure: {this.props.pressure}</p>
                 <p>Sunset: {this.props.sunset}</p>
                 </div>
                 }

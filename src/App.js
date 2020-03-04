@@ -12,7 +12,7 @@ class App extends React.Component
     temp: undefined,
     city: undefined,
     country: undefined,
-    sunrise: undefined,
+    pressure: undefined,
     sutset: undefined,
     error: undefined
   }
@@ -32,14 +32,14 @@ class App extends React.Component
       var date = new Date();
       console.log(date);
       date.setTime(sunset*1000);
-      // var sunset_date = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-      var sunset_date = date.toLocaleString();
+      var sunset_date = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+      // var sunset_date = date.toLocaleString();
 
       this.setState({
         temp: data.main.temp,
         city: data.name,
         country: data.sys.country,
-        sunrise: data.sys.sunrise,
+        pressure: data.main.pressure,
         sunset: sunset_date,
         error: ""
       });
@@ -56,7 +56,7 @@ class App extends React.Component
           temp={this.state.temp}
           city={this.state.city}
           country={this.state.country}
-          sunrise={this.state.sunrise}
+          pressure={this.state.pressure}
           sunset={this.state.sunset}
           error={this.state.error}
         />
